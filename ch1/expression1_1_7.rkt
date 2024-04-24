@@ -1,0 +1,38 @@
+#lang racket
+(define (sqrt-iter guess x)
+  (if (good-enough? guess x)
+      guess
+      (sqrt-iter (improve guess x)
+                  x)))
+; until good-enough? is satisfied, it loops over x.
+
+(define (improve guess x)
+  (average guess (/ x guess)))
+; make average of guess and x
+
+(define (average x y)
+  (/ (+ x y) 2))
+
+(define (good-enough? guess x)
+  (< (abs (- (square guess) x)) 0.001))
+; to see if the absolute value of the diff of x and the square of guess
+; is less than 0.001
+
+(define (square x) (* x x))
+
+(define (sqrt x)
+  (sqrt-iter 1.0 x))
+; first guess is set to 1.0
+
+(define (abs x )
+  (cond ((< x 0) (- x))
+        (else x)))
+
+(sqrt 9)
+; 3.00009155413138
+(sqrt (+ 100 37))
+; 11.704699917758145
+(sqrt (+ (sqrt 2) (sqrt 3)))
+; 1.7739279023207892
+(square (sqrt 1000))
+; 1000.000369924366
